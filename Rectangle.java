@@ -1,7 +1,7 @@
 package ch.epfl.flamemaker.geometry2d;
 
 public class Rectangle {
-  private final Point center;
+	private final Point center;
 	private final double width;
 	private final double height; 
 	
@@ -47,6 +47,31 @@ public class Rectangle {
 				&& p.y()>=this.bottom() && p.y()<this.top());
 	}
 	
+	public double aspectRatio() {
+		return width/height;
+	}
+	
+	public Rectangle expandToAspectRatio(double aspectRatio) throws IllegalArgumentException {
+		Point center = new Point(this.center().x(), this.center().y());
+		double width = 0;
+		double height = 0;
+		
+		if (aspectRatio <= 0) {
+			throw new IllegalArgumentException();
+		}else if (aspectRatio > this.aspectRatio()) {
+			width = this.height*aspectRatio;
+			height = this.height;
+		}else if (aspectRatio < this.aspectRatio()) {
+			width = this.width;
+			height = this.width/aspectRatio;
+		}
+		Rectangle rectangle = new Rectangle(center, width, height);
+		return rectangle;
+	}
+	
+	public String toString() {
+		return "("+center.toString()+", "+this.width+", "+this.height+")";
+	}
+	
 }
-
 
